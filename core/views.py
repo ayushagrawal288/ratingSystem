@@ -19,7 +19,7 @@ class RatingGet(RetrieveAPIView):
         product_id = kwargs.get("id")
 
         try:
-            Product.objects.get(id=product_id)
+            product = Product.objects.get(id=product_id)
         except ObjectDoesNotExist as e:
             return Response({"success": False, "status_code": 404, "message": e.__str__()}, status=404)
 
@@ -29,7 +29,8 @@ class RatingGet(RetrieveAPIView):
             rating_sum += i.rating
 
         return Response({
-             "product_id": product_id,
+             "id": product.id,
+             "name": product.name,
              "no_of_ratings": len(ratings),
              "avg_rating": rating_sum/len(ratings)
          })
